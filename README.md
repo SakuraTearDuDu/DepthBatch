@@ -72,6 +72,8 @@ python scripts/download_da_v2_small.py
 
 The default target is `artifacts/weights/depth_anything_v2_vits.pth`. The script validates the file against the recorded SHA256 in `checksums/depth_anything_v2_vits.sha256`.
 
+For the current alpha release, the same official checkpoint is also mirrored as a GitHub pre-release asset on the [DepthBatch `v0.1.0-alpha` release page](https://github.com/SakuraTearDuDu/DepthBatch/releases/tag/v0.1.0-alpha). The repository still does not bundle the checkpoint in Git history.
+
 ### 3. Real PyTorch inference with Depth Anything V2 Small
 
 ```powershell

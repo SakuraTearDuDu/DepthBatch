@@ -29,7 +29,7 @@
 
 - The repository does not bundle the DA-V2 Small checkpoint
 - Default distribution path is the official source plus `scripts/download_da_v2_small.py`
-- A GitHub release asset may be added later if release tooling and policy checks allow it
+- The current `v0.1.0-alpha` pre-release mirrors the official checkpoint as a release asset, together with the SHA256 file
 
 ## Known Limits
 

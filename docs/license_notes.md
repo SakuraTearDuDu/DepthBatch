@@ -41,6 +41,10 @@ Default supported guidance:
   - do not commit the checkpoint into Git history
   - prefer external distribution such as a GitHub release asset only if release tooling and policy checks are available
   - otherwise use the downloader script plus checksum verification
+- current pre-release mirror:
+  - release page: `https://github.com/SakuraTearDuDu/DepthBatch/releases/tag/v0.1.0-alpha`
+  - checkpoint asset: `depth_anything_v2_vits.pth`
+  - checksum asset: `depth_anything_v2_vits.sha256`
 
 ## Important Caveat
 

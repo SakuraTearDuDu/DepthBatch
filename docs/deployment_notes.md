@@ -51,6 +51,8 @@ depthbatch infer-onnx `
   --stdout-json
 ```
 
+For convenience, the current `v0.1.0-alpha` GitHub pre-release also mirrors the official DA-V2 Small checkpoint as a release asset. The repository source tree still does not bundle the checkpoint.
+
 Important boundary for this alpha:
 
 - the release-validated ONNX path is static square export with `input_size=518`
