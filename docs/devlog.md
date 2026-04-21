@@ -1,0 +1,46 @@
+# Devlog
+
+## 2026-04-22
+
+- Repository bootstrap started.
+- Constraint recorded: all write operations, caches, logs, temporary files, virtual environments, and generated artifacts must remain inside `D:\github_test_DepthBatch`.
+- Chosen V1 defaults: Apache-2.0 repository license, `depthbatch` package/CLI naming, Depth Anything V2 Small as the default recommended model path, and native PyTorch semantics as the canonical baseline.
+- Validation posture updated: fake backend paths are CI-verified; DA-V2 Small real PyTorch and ONNXRuntime paths now have recorded local evidence on the environment below.
+- Verification completed inside the repository-local environments:
+  - editable install via `.venv`
+  - `ruff check .`
+  - `ruff format --check .`
+  - `mypy src`
+  - `pytest`
+  - `python -m build`
+  - wheel install smoke via `.venv-wheel`
+  - CLI smoke: `depthbatch infer-images --backend fake --input tests/fixtures/images --output runs/final-smoke --save-raw --stdout-json`
+- Real DA-V2 Small checkpoint evidence recorded:
+  - source: `https://huggingface.co/depth-anything/Depth-Anything-V2-Small`
+  - file: `artifacts/weights/depth_anything_v2_vits.pth`
+  - size: `99,218,434` bytes
+  - SHA256: `715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378`
+- Real runtime environment recorded:
+  - platform: `Windows-11-10.0.26200-SP0`
+  - python: `3.12.7`
+  - torch: `2.11.0+cpu`
+  - onnxruntime: `1.24.4`
+  - opencv-python-headless: `4.13.0.92`
+- Real command verification recorded:
+  - PyTorch single image: `depthbatch infer-images --backend pytorch --model da-v2-small --weights artifacts\weights\depth_anything_v2_vits.pth --input tests\fixtures\images\sample_a.ppm --output runs\real-small-pytorch-single --run-name single --save-raw --stdout-json`
+  - PyTorch folder: `depthbatch infer-images --backend pytorch --model da-v2-small --weights artifacts\weights\depth_anything_v2_vits.pth --input tests\fixtures\images --output runs\real-small-pytorch-folder --run-name folder --save-raw --stdout-json`
+  - ONNX export: `depthbatch export-onnx --backend pytorch --model da-v2-small --weights artifacts\weights\depth_anything_v2_vits.pth --output artifacts\onnx --run-name export-small --overwrite --stdout-json`
+  - ONNXRuntime folder: `depthbatch infer-onnx --model da-v2-small --onnx-path artifacts\onnx\artifacts\export\model.onnx --input tests\fixtures\images --output runs\real-small-onnx-folder --run-name onnx-folder --overwrite --save-raw --stdout-json`
+  - benchmark: `depthbatch benchmark --model da-v2-small --weights artifacts\weights\depth_anything_v2_vits.pth --onnx-path artifacts\onnx\artifacts\export\model.onnx --input tests\fixtures\images --output runs\real-small-benchmark --run-name benchmark --overwrite --stdout-json`
+- Benchmark evidence recorded on `tests/fixtures/images`:
+  - PyTorch: `2.283719299997756` total seconds, `0.3806198833329593` average seconds per image
+  - ONNXRuntime: `3.5216879000035988` total seconds, `0.5869479833339332` average seconds per image
+- Real chain issues found and fixed:
+  - added global `--version`
+  - switched ONNX export to the stable legacy exporter path on Windows
+  - rejected release-unvalidated dynamic export for DA-V2 Small instead of silently emitting a misleading model
+  - made `infer-onnx` consume export metadata and use square preprocessing for the validated static export path
+  - hardened checkpoint normalization for wrapped `state_dict` / `model` containers and `module.` prefixes
+  - replaced fragile OpenCV path-based writes with explicit encoded writes to avoid silent Windows failures
+- Remaining gap:
+  - current real validation evidence is CPU-only; CUDA / GPU runtime remains unverified in this repository state

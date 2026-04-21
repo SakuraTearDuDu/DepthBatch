@@ -1,0 +1,16 @@
+DepthBatch
+Copyright 2026 OpenAI
+
+This product includes adapted source code from the following upstream projects:
+
+1. DepthAnything/Depth-Anything-V2
+   License: Apache-2.0
+   Usage: Minimal vendored runtime files under src/depthbatch/providers/depth_anything_v2/_vendor
+
+2. Meta DINOv2 components redistributed through DepthAnything/Depth-Anything-V2
+   License: Apache-2.0
+   Usage: Minimal transformer backbone implementation vendored under
+   src/depthbatch/providers/depth_anything_v2/_vendor
+
+Additional attribution and license notes are documented in docs/reference_notes.md
+and docs/license_notes.md.

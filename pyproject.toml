@@ -1,0 +1,105 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "depthbatch"
+version = "0.1.0a0"
+description = "Batch and deployment tooling for monocular depth estimation workflows built around Depth Anything V2."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [
+  { name = "林载炘" },
+]
+keywords = ["depth-estimation", "monocular-depth", "onnx", "batch-processing", "computer-vision"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+  "numpy>=1.26",
+  "opencv-python-headless>=4.10",
+  "Pillow>=10.3",
+  "PyYAML>=6.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2.1",
+  "mypy>=1.10",
+  "onnx>=1.16",
+  "onnxruntime>=1.18",
+  "pytest>=8.3",
+  "ruff>=0.6.9",
+]
+pytorch = [
+  "torch>=2.1",
+  "torchvision>=0.16",
+]
+onnx = [
+  "onnx>=1.16",
+  "onnxruntime>=1.18",
+]
+transformers = [
+  "torch>=2.1",
+  "transformers>=4.42",
+]
+full = [
+  "depthbatch[dev,pytorch,onnx,transformers]",
+]
+
+[project.urls]
+Homepage = "https://github.com/SakuraTearDuDu/DepthBatch"
+Repository = "https://github.com/SakuraTearDuDu/DepthBatch"
+Issues = "https://github.com/SakuraTearDuDu/DepthBatch/issues"
+
+[project.scripts]
+depthbatch = "depthbatch.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/depthbatch"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "W"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/depthbatch/providers/depth_anything_v2/_vendor/**/*.py" = ["B006", "B905", "E731", "I001", "N802", "N812", "UP006", "UP007", "UP035", "UP045"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+strict_equality = true
+pretty = true
+packages = ["depthbatch"]
+exclude = ["src/depthbatch/providers/depth_anything_v2/_vendor/"]
+
+[[tool.mypy.overrides]]
+module = ["yaml", "onnxruntime", "onnx", "torch", "torch.*", "transformers", "xformers.*"]
+ignore_missing_imports = true

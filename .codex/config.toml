@@ -1,0 +1,7 @@
+[project]
+name = "DepthBatch"
+root = "D:\\github_test_DepthBatch"
+
+[constraints]
+workspace_only = true
+default_venv = ".venv"
