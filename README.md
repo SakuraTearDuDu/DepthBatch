@@ -1,8 +1,36 @@
+<p align="center">
+  <img src="docs/assets/depthbatch-banner.svg" alt="DepthBatch banner" width="100%" />
+</p>
+
+<p align="center">
+  <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/SakuraTearDuDu/DepthBatch/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/SakuraTearDuDu/DepthBatch/ci.yml?branch=main&label=CI" alt="CI status" />
+  </a>
+  <a href="https://github.com/SakuraTearDuDu/DepthBatch/releases/tag/v0.1.0-alpha">
+    <img src="https://img.shields.io/github/v/release/SakuraTearDuDu/DepthBatch?include_prereleases&label=release" alt="Release" />
+  </a>
+  <img src="https://img.shields.io/badge/python-3.10%2B-3776AB" alt="Python 3.10+" />
+  <img src="https://img.shields.io/badge/license-Apache--2.0-2EA043" alt="Apache-2.0" />
+</p>
+
+<p align="center">
+  <a href="docs/quickstart.md">Quick Start</a> ·
+  <a href="docs/license_notes.md">License Notes</a> ·
+  <a href="docs/deployment_notes.md">Deployment Notes</a> ·
+  <a href="https://github.com/SakuraTearDuDu/DepthBatch/releases/tag/v0.1.0-alpha">v0.1.0-alpha</a>
+</p>
+
 # DepthBatch
 
 DepthBatch is a batch-processing and deployment-oriented monocular depth estimation toolchain built around the inference semantics of [Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2).
 
 It is not a training framework, model zoo, or GUI product. The project turns the upstream single-image and single-video workflows into a reusable engineering package with a consistent CLI, Python API, manifests, ONNX export hooks, and structured run outputs.
+
+> Current release scope: `v0.1.0-alpha` validates the DA-V2 Small local-checkpoint PyTorch path and the static-square ONNXRuntime validation path on the recorded local environment. Fake backend coverage remains the CI-safe smoke path.
 
 ## Why This Exists
 

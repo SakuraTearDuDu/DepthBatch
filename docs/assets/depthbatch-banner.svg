@@ -1,0 +1,57 @@
+<svg width="1280" height="360" viewBox="0 0 1280 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1320"/>
+      <stop offset="0.5" stop-color="#10233D"/>
+      <stop offset="1" stop-color="#123E4A"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="78" y1="72" x2="410" y2="288" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#122B47" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#0E1D31" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="line" x1="118" y1="102" x2="354" y2="258" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5BE7C4"/>
+      <stop offset="1" stop-color="#5AB1FF"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(956 120) rotate(120.277) scale(249.177 350.497)">
+      <stop stop-color="#3EE6C6" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#3EE6C6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1280" height="360" rx="24" fill="url(#bg)"/>
+  <rect x="74" y="66" width="352" height="228" rx="22" fill="url(#panel)" stroke="rgba(255,255,255,0.08)"/>
+  <circle cx="118" cy="106" r="3" fill="#5BE7C4"/>
+  <circle cx="170" cy="152" r="4" fill="#9AE6FF"/>
+  <circle cx="220" cy="116" r="5" fill="#5AB1FF"/>
+  <circle cx="274" cy="192" r="4" fill="#5BE7C4"/>
+  <circle cx="326" cy="138" r="5" fill="#8FD8FF"/>
+  <circle cx="358" cy="214" r="4" fill="#5BE7C4"/>
+  <circle cx="192" cy="234" r="5" fill="#9AE6FF"/>
+  <circle cx="130" cy="232" r="4" fill="#5AB1FF"/>
+  <circle cx="244" cy="268" r="4" fill="#5BE7C4"/>
+  <path d="M118 106L170 152L220 116L326 138L358 214L244 268L130 232L170 152L274 192L358 214" stroke="url(#line)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M130 232L274 192L326 138" stroke="#9AE6FF" stroke-opacity="0.45" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M118 106L220 116L244 268" stroke="#5BE7C4" stroke-opacity="0.35" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M170 152L326 138" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1.5" stroke-dasharray="6 10" stroke-linecap="round"/>
+  <path d="M98 270C126 248 162 236 206 236C278 236 334 180 334 122" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="24" stroke-linecap="round"/>
+
+  <circle cx="956" cy="120" r="210" fill="url(#glow)"/>
+  <rect x="734" y="86" width="168" height="34" rx="17" fill="#0F2235" stroke="#214E6A"/>
+  <text x="758" y="108" fill="#5BE7C4" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="1.6">MONODEPTHOPS</text>
+
+  <text x="734" y="172" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="800">DepthBatch</text>
+  <text x="736" y="214" fill="#B7CAE2" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="500">
+    Batch and deployment tooling for Depth Anything V2 workflows
+  </text>
+  <text x="736" y="252" fill="#90A8C8" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="400">
+    PyTorch baseline · ONNX export · ONNXRuntime validation · Structured run outputs
+  </text>
+
+  <rect x="734" y="278" width="116" height="36" rx="18" fill="#173753" stroke="#2A5B7B"/>
+  <text x="759" y="301" fill="#E9F7FF" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Alpha</text>
+  <rect x="864" y="278" width="166" height="36" rx="18" fill="#153E3C" stroke="#2A736B"/>
+  <text x="889" y="301" fill="#E9FFF8" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">DA-V2 Small Validated</text>
+  <rect x="1046" y="278" width="126" height="36" rx="18" fill="#1A293D" stroke="#3A5476"/>
+  <text x="1072" y="301" fill="#EAF1FF" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">CLI + API</text>
+</svg>
