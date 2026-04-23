@@ -66,7 +66,7 @@ def export_onnx(
     model_name: str = "da-v2-small",
     weights: Path | None = None,
     input_size: int = 518,
-    dynamic: bool = True,
+    dynamic: bool = False,
     opset: int = 17,
 ) -> RunResult:
     config = AppConfig()

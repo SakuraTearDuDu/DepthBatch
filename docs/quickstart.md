@@ -1,5 +1,7 @@
 # Quick Start
 
+**English** | [简体中文](quickstart.zh-CN.md)
+
 ## Smoke Path
 
 Use the fake backend first to verify packaging, CLI wiring, manifest writing, and output layout.
@@ -36,6 +38,16 @@ depthbatch infer-images `
   --stdout-json
 ```
 
+Recorded local GPU install commands for the current Windows/NVIDIA environment:
+
+```powershell
+pip install --force-reinstall --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+pip uninstall -y onnxruntime
+pip install onnxruntime-gpu
+```
+
+These GPU wheels remain environment-specific and are intentionally not pinned in `pyproject.toml`.
+
 ## ONNX Validation Path
 
 ```powershell
@@ -60,3 +72,5 @@ depthbatch infer-onnx `
 ```
 
 Current alpha note: the validated ONNXRuntime path is static square export at `input_size=518`.
+
+The recorded local CUDA path also succeeded with `--device cuda`.

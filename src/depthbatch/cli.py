@@ -62,6 +62,8 @@ def build_parser() -> argparse.ArgumentParser:
     _add_model_args(benchmark_parser)
     benchmark_parser.add_argument("--input", required=True, type=Path)
     benchmark_parser.add_argument("--onnx-path", type=Path, default=None)
+    benchmark_parser.add_argument("--device", default=None)
+    benchmark_parser.add_argument("--batch-size", type=int, default=None)
     benchmark_parser.add_argument(
         "--compare-backend", dest="compare_backends", action="append", default=None
     )

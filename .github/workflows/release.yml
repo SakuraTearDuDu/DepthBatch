@@ -1,31 +1,79 @@
 name: Release
 
-on:
+"on":
   push:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Install package
         run: |
           python -m pip install --upgrade pip
           pip install -e .[dev]
+
       - name: Validate
         run: |
           ruff check .
           ruff format --check .
           mypy src
           pytest
-          python -m build
-      - name: Upload release artifacts
+
+      - name: Build
+        run: python -m build
+
+      - name: Resolve release metadata
+        id: meta
+        shell: bash
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          prerelease=false
+          if [[ "$tag" == *alpha* || "$tag" == *beta* || "$tag" == *rc* ]]; then
+            prerelease=true
+          fi
+          notes_path="docs/release_notes_${tag}.md"
+          has_notes=false
+          if [[ -f "$notes_path" ]]; then
+            has_notes=true
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
+          echo "has_notes=$has_notes" >> "$GITHUB_OUTPUT"
+          echo "notes_path=$notes_path" >> "$GITHUB_OUTPUT"
+
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: depthbatch-dist
           path: dist/*
+
+      - name: Publish release from checked-in notes
+        if: steps.meta.outputs.has_notes == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          prerelease: ${{ steps.meta.outputs.prerelease == 'true' }}
+          body_path: ${{ steps.meta.outputs.notes_path }}
+          files: |
+            dist/*
+
+      - name: Publish release with generated notes
+        if: steps.meta.outputs.has_notes != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          prerelease: ${{ steps.meta.outputs.prerelease == 'true' }}
+          generate_release_notes: true
+          files: |
+            dist/*

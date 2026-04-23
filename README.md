@@ -18,7 +18,8 @@
 </p>
 
 <p align="center">
-  <a href="docs/quickstart.md">Quick Start</a> ·
+  <a href="docs/quickstart.md">Quick Start (EN)</a> ·
+  <a href="docs/quickstart.zh-CN.md">Quick Start (ZH-CN)</a> ·
   <a href="docs/license_notes.md">License Notes</a> ·
   <a href="docs/deployment_notes.md">Deployment Notes</a> ·
   <a href="https://github.com/SakuraTearDuDu/DepthBatch/releases/tag/v0.1.0-alpha">v0.1.0-alpha</a>
@@ -30,7 +31,7 @@ DepthBatch is a batch-processing and deployment-oriented monocular depth estimat
 
 It is not a training framework, model zoo, or GUI product. The project turns the upstream single-image and single-video workflows into a reusable engineering package with a consistent CLI, Python API, manifests, ONNX export hooks, and structured run outputs.
 
-> Current release scope: `v0.1.0-alpha` validates the DA-V2 Small local-checkpoint PyTorch path and the static-square ONNXRuntime validation path on the recorded local environment. Fake backend coverage remains the CI-safe smoke path.
+> Current release scope: `v0.1.0-alpha` records local DA-V2 Small evidence for the canonical PyTorch path on CPU and CUDA, plus the static-square ONNXRuntime validation path on CPU and the current Windows/NVIDIA CUDA setup. Fake backend coverage remains the CI-safe smoke path.
 
 ## Why This Exists
 
@@ -48,7 +49,7 @@ The upstream Depth Anything V2 repository is a strong reference for model behavi
 DepthBatch intentionally keeps the upstream PyTorch path as the canonical semantic baseline.
 
 - `pytorch`: canonical backend, locally validated for DA-V2 Small with a user-provided local checkpoint
-- `onnxruntime`: deployment validation backend, locally validated for the static square ONNX export path
+- `onnxruntime`: deployment validation backend, locally validated for the static square ONNX export path, with recorded CUDAExecutionProvider evidence on the current Windows/NVIDIA setup
 - `transformers`: experimental compatibility backend
 - `fake`: deterministic smoke-test backend for CI and examples
 
@@ -78,6 +79,8 @@ pip install -e .[pytorch]
 pip install -e .[pytorch,onnx]
 pip install -e .[transformers]
 ```
+
+> GPU wheels remain environment-specific and are intentionally not hard-coded in `pyproject.toml`. The recorded Windows 11 + RTX 4080 SUPER validation commands are documented in [Deployment Notes](docs/deployment_notes.md).
 
 ## Quick Start
 
@@ -115,6 +118,8 @@ depthbatch infer-images `
   --stdout-json
 ```
 
+On the recorded Windows/NVIDIA machine, the same path was also validated with `--device cuda`.
+
 ### 4. Export ONNX from the local checkpoint
 
 ```powershell
@@ -142,6 +147,8 @@ depthbatch infer-onnx `
   --stdout-json
 ```
 
+The recorded local GPU validation also succeeded with `--device cuda`, using `CUDAExecutionProvider` plus CPU fallback.
+
 ### 6. Run a small backend benchmark
 
 ```powershell
@@ -149,10 +156,13 @@ depthbatch benchmark `
   --model da-v2-small `
   --weights artifacts\weights\depth_anything_v2_vits.pth `
   --onnx-path artifacts\onnx\artifacts\export\model.onnx `
+  --device cuda `
   --input tests\fixtures\images `
   --output runs\real-small-benchmark `
   --stdout-json
 ```
+
+When both `pytorch` and `onnxruntime` are present, `benchmark` now also writes a statistical comparison section to `reports/benchmark.json` and `reports/benchmark.md`. These normalized-error metrics are engineering evidence, not a claim of full preprocessing equivalence.
 
 ## CLI
 
@@ -219,8 +229,8 @@ Run outputs:
 | Backend | Status | Notes |
 | --- | --- | --- |
 | `fake` | verified | Deterministic smoke-test backend used in CI |
-| `pytorch` | alpha-supported | Locally validated for DA-V2 Small on Windows 11 / Python 3.12.7 / torch 2.11.0+cpu with a user-provided local checkpoint |
-| `onnxruntime` | alpha-supported | Locally validated for the static square export path on Windows 11 / Python 3.12.7 / onnxruntime 1.24.4 |
+| `pytorch` | alpha-supported | Locally validated for DA-V2 Small on Windows 11 / Python 3.12.7 with `torch 2.11.0+cu128`; CPU and CUDA evidence are both recorded |
+| `onnxruntime` | alpha-supported | Locally validated for the static square export path on Windows 11 / Python 3.12.7 with `onnxruntime-gpu 1.25.0`; CPU smoke and CUDAExecutionProvider evidence are both recorded |
 | `transformers` | experimental | Compatibility path, not canonical |
 
 ## Limitations
@@ -228,9 +238,11 @@ Run outputs:
 - No bundled model weights or exported ONNX files
 - No training, fine-tuning, distillation, or metric-depth research workflows
 - No TensorRT backend implementation in V1
-- Current real validation evidence is CPU-only
+- Current GPU evidence is limited to the recorded Windows 11 + RTX 4080 SUPER environment
 - Dynamic ONNX export is not release-validated in `v0.1.0-alpha`
 - ONNXRuntime validation in this alpha uses a static square preprocessing contract
+- Benchmark comparison reports statistical consistency, not numerical equivalence
+- Export-time ONNX smoke validation remains CPU-based for deterministic release checks
 - Real backend validation depends on local user environment and user-provided artifacts
 
 ## License

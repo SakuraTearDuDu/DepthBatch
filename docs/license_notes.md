@@ -19,6 +19,7 @@ Default supported guidance:
 - Do not commit model weights
 - Do not bundle exported ONNX files in the repository
 - Do not bundle TensorRT engines
+- GitHub Actions release automation publishes code artifacts only; checkpoint mirroring remains a manual policy-reviewed step
 - Record artifact source, checksum, and license notes in run metadata when available
 
 ## Artifact Matrix
@@ -45,6 +46,7 @@ Default supported guidance:
   - release page: `https://github.com/SakuraTearDuDu/DepthBatch/releases/tag/v0.1.0-alpha`
   - checkpoint asset: `depth_anything_v2_vits.pth`
   - checksum asset: `depth_anything_v2_vits.sha256`
+  - upload mode: manual post-step after the code release workflow completes
 
 ## Important Caveat
 

@@ -1,5 +1,43 @@
 # Devlog
 
+## 2026-04-23
+
+- High-priority hardening completed inside `D:\github_test_DepthBatch` only: accelerator metadata, benchmark comparison reporting, release workflow automation, and bilingual quickstart coverage.
+- Environment snapshot schema expanded:
+  - `environment.json` now records accelerator metadata for `torch`, `cuda`, `gpu`, and `onnxruntime_providers`
+  - system GPU names and driver version are collected via `nvidia-smi` when available
+- Benchmark reporting expanded:
+  - `reports/benchmark.json` may now include a `comparison` block when both `pytorch` and `onnxruntime` are benchmarked with the required artifacts
+  - comparison metrics currently record shape checks, per-backend depth stats, and normalized MAE / RMSE / max abs error
+- CLI gap fixed:
+  - `depthbatch benchmark` now accepts `--device` and `--batch-size`
+- Release automation upgraded:
+  - `.github/workflows/release.yml` now runs validation on `v*` tags, builds `dist/*`, and publishes a GitHub release
+  - tags containing `alpha`, `beta`, or `rc` are marked as pre-releases
+  - release notes prefer `docs/release_notes_<tag>.md`
+  - checkpoint mirroring remains a manual post-step
+- Chinese docs expanded:
+  - added `docs/quickstart.zh-CN.md`
+  - synchronized README/quickstart links and deployment wording across English and Simplified Chinese
+- Real GPU validation completed on the current machine after switching the repository-local `.venv` to GPU-capable packages:
+  - `torch 2.11.0+cu128`
+  - `onnxruntime-gpu 1.25.0`
+  - GPU: `NVIDIA GeForce RTX 4080 SUPER`
+- Recorded local GPU command verification:
+  - PyTorch single image: `depthbatch infer-images --backend pytorch --device cuda --model da-v2-small --weights artifacts\weights\depth_anything_v2_vits.pth --input tests\fixtures\images\sample_a.ppm --output runs\gpu-small-pytorch-single --run-name gpu-single --overwrite --save-raw --stdout-json`
+  - PyTorch folder: `depthbatch infer-images --backend pytorch --device cuda --model da-v2-small --weights artifacts\weights\depth_anything_v2_vits.pth --input tests\fixtures\images --output runs\gpu-small-pytorch-folder --run-name gpu-folder --overwrite --save-raw --stdout-json`
+  - ONNX export: `depthbatch export-onnx --backend pytorch --model da-v2-small --weights artifacts\weights\depth_anything_v2_vits.pth --output artifacts\onnx-gpu --run-name export-gpu-small --overwrite --stdout-json`
+  - ONNXRuntime folder: `depthbatch infer-onnx --model da-v2-small --onnx-path artifacts\onnx-gpu\artifacts\export\model.onnx --device cuda --input tests\fixtures\images --output runs\gpu-small-onnx-folder --run-name onnx-gpu-folder --overwrite --save-raw --stdout-json`
+  - benchmark: `depthbatch benchmark --model da-v2-small --weights artifacts\weights\depth_anything_v2_vits.pth --onnx-path artifacts\onnx-gpu\artifacts\export\model.onnx --device cuda --input tests\fixtures\images --output runs\gpu-small-benchmark --run-name gpu-benchmark --overwrite --stdout-json`
+- Recorded local GPU benchmark evidence:
+  - PyTorch CUDA: `0.17991710000205785` total seconds, `0.02998618333367631` average seconds per image
+  - ONNXRuntime CUDA: `0.11646099998324644` total seconds, `0.019410166663874406` average seconds per image
+  - comparison summary: `mean_mae=0.02774494375626091`, `mean_rmse=0.03597149583220016`, `max_abs_error=0.16140271723270416`
+- Updated boundary statement:
+  - GPU evidence now exists, but only for the recorded Windows 11 + RTX 4080 SUPER environment
+  - export-time ONNX smoke remains CPU-based
+  - benchmark comparison is engineering evidence, not a numerical-equivalence guarantee
+
 ## 2026-04-22
 
 - Repository bootstrap started.
